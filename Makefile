@@ -9,7 +9,7 @@ SRC=$(wildcard $(DIRSRC)/*.cpp)
 OBJ=$(patsubst %.cpp,$(DIROBJ)/%.o,$(notdir $(SRC)))
 
 CXX=g++
-LIBS = -I include -l interop_lib -L lib/InterOp-1.1.8/lib64 -I lib/InterOp-1.1.8/include -I lib/rapidjson-1.1.0
+LIBS = -I include -l interop_lib -L lib/interop-1.1.8/lib64 -I lib/interop-1.1.8/include -I lib/rapidjson-1.1.0
 CXXFLAGS = -std=c++11 -Wall -O3 -lz -fopenmp
 
 all: $(TARGET)
