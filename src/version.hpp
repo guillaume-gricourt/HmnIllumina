@@ -1,0 +1,2 @@
+#define HMNILLUMINA_VERSION "1.4.0"
+#define HMNILLUMINA_DATE "Jul. 2020"

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<RunParameters>
+  <EnableCloud>false</EnableCloud>
+  <RunParametersVersion>MiSeq_1_1</RunParametersVersion>
+  <CopyManifests>true</CopyManifests>
+  <FlowcellRFIDTag>
+    <SerialNumber>000000000-Z9ZZ9</SerialNumber>
+    <PartNumber>FRTPN9999</PartNumber>
+    <ExpirationDate>0001-01-01T00:00:00</ExpirationDate>
+  </FlowcellRFIDTag>
+  <PR2BottleRFIDTag>
+    <PartNumber>PBRTPN9999</PartNumber>
+    <ExpirationDate>0001-01-01T00:00:00</ExpirationDate>
+  </PR2BottleRFIDTag>
+  <ReagentKitRFIDTag>
+    <SerialNumber>RKFTSNV9999</SerialNumber>
+    <PartNumber>RKFTPN9999</PartNumber>
+    <ExpirationDate>0001-00-01T00:00:00</ExpirationDate>
+  </ReagentKitRFIDTag>
+  <Resumable>true</Resumable>
+  <ManifestFiles />
+  <AfterRunWashMethod>Post-Run Wash</AfterRunWashMethod>
+  <Setup>
+    <SupportMultipleSurfacesInUI>false</SupportMultipleSurfacesInUI>
+    <ApplicationVersion>2.6.0.0</ApplicationVersion>
+    <NumTilesPerSwath>2</NumTilesPerSwath>
+    <NumSwaths>1</NumSwaths>
+    <NumLanes>1</NumLanes>
+    <ApplicationName>MiSeq Control Software</ApplicationName>
+  </Setup>
+  <RunID>200101_M999_0999_000000000-Z9ZZ9</RunID>
+  <ScannerID>M999</ScannerID>
+  <RunNumber>999</RunNumber>
+  <FPGAVersion>9.5.12</FPGAVersion>
+  <MCSVersion>2.6.2.1</MCSVersion>
+  <RTAVersion>1.18.54</RTAVersion>
+  <Barcode>000000000-Z9ZZ9</Barcode>
+  <PR2BottleBarcode>PBC9999</PR2BottleBarcode>
+  <ReagentKitPartNumberEntered>RKPNE999</ReagentKitPartNumberEntered>
+  <ReagentKitVersion>Version2</ReagentKitVersion>
+  <ReagentKitBarcode>RKB999</ReagentKitBarcode>
+  <PreviousPR2BottleBarcode>PPBB999</PreviousPR2BottleBarcode>
+  <PreviousReagentKitBarcode>PRKB999</PreviousReagentKitBarcode>
+  <ExperimentName>RUN9</ExperimentName>
+  <Chemistry>Amplicon</Chemistry>
+  <Username>sbs</Username>
+  <Workflow>
+    <Analysis>GenerateFASTQ</Analysis>
+  </Workflow>
+  <EnableAnalysis>false</EnableAnalysis>
+  <Reads>
+    <RunInfoRead Number="1" NumCycles="151" IsIndexedRead="N" />
+    <RunInfoRead Number="2" NumCycles="10" IsIndexedRead="Y" />
+    <RunInfoRead Number="3" NumCycles="10" IsIndexedRead="Y" />
+    <RunInfoRead Number="4" NumCycles="151" IsIndexedRead="N" />
+  </Reads>
+  <TempFolder>D:\Illumina\MiSeqTemp\200101_M999_0999_000000000-Z9ZZ9</TempFolder>
+  <AnalysisFolder>D:\Illumina\MiSeqAnalysis\200101_M999_0999_000000000-Z9ZZ9</AnalysisFolder>
+  <RunStartDate>200101</RunStartDate>
+  <MostRecentWashType>Maintenance</MostRecentWashType>
+  <RecipeFolder>D:\Illumina\MiSeq Control Software\CustomRecipe</RecipeFolder>
+  <ILMNOnlyRecipeFolder>C:\Illumina\MiSeq Control Software\Recipe</ILMNOnlyRecipeFolder>
+  <SampleSheetName>RUN9</SampleSheetName>
+  <SampleSheetFolder>C:\Users\sbsuser\Desktop</SampleSheetFolder>
+  <ManifestFolder>D:\Illumina\MiSeq Control Software\Manifests</ManifestFolder>
+  <OutputFolder>D:\Illumina\MiSeqOutput\200101_M999_0999_000000000-Z9Z9</OutputFolder>
+  <FocusMethod>AutoFocus</FocusMethod>
+  <SurfaceToScan>Top</SurfaceToScan>
+  <SaveFocusImages>false</SaveFocusImages>
+  <SaveScanImages>true</SaveScanImages>
+  <CloudUsername>11</CloudUsername>
+  <RunManagementType>Standalone</RunManagementType>
+  <CloudRunId>199999</CloudRunId>
+  <SendInstrumentHealthToILMN>true</SendInstrumentHealthToILMN>
+</RunParameters>

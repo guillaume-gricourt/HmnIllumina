@@ -1,0 +1,73 @@
+{
+    "parameters": {
+        "chemistry": "Amplicon",
+        "cycle_total": "322",
+        "cycles_forward": "151",
+        "cycles_reverse": "151",
+        "date": "200101",
+        "flowcell": "000000000-Z9ZZ9",
+        "instrument_name": "M999",
+        "paired": "true",
+        "reagent_kit_version": "Version2",
+        "run_name": "200101_M999_0999_000000000-Z9ZZ9"
+    },
+    "flowcell": {
+        "cluster_density": "617949.250000",
+        "cluster_pf": "797768.000000",
+        "cluster_raw": "878567.000000",
+        "error_rate": "0.591795",
+        "q_30": "91.962479",
+        "yield": "0.253690"
+    },
+    "read": {
+        "0": {
+            "q_30": "94.476318"
+        },
+        "3": {
+            "q_30": "90.628418"
+        }
+    },
+    "lane": {
+        "1": {
+            "cluster_density": "617949.250000",
+            "cluster_percent_pf": "90.803322",
+            "cluster_pf": "797768.000000",
+            "cluster_raw": "878567.000000",
+            "q_30": "90.628418"
+        }
+    },
+    "samples": {
+        "P1": {
+            "sample_id": "1",
+            "index1": "GAACTGAGCG",
+            "index2": "TCGTGGAGCG",
+            "fraction_mapped": "20.007799",
+            "cluster_count": "159616",
+            "project_name": "NA"
+        },
+        "P2": {
+            "sample_id": "2",
+            "index1": "AGGTCAGATA",
+            "index2": "TCGTGGAGCG",
+            "fraction_mapped": "19.866400",
+            "cluster_count": "158488",
+            "project_name": "NA"
+        },
+        "P3": {
+            "sample_id": "3",
+            "index1": "GAACTGAGCG",
+            "index2": "CTACAAGATA",
+            "fraction_mapped": "15.412900",
+            "cluster_count": "122959",
+            "project_name": "NA"
+        },
+        "P4": {
+            "sample_id": "4",
+            "index1": "AGGTCAGATA",
+            "index2": "CTACAAGATA",
+            "fraction_mapped": "15.331000",
+            "cluster_count": "122306",
+            "project_name": "NA"
+        }
+    }
+}

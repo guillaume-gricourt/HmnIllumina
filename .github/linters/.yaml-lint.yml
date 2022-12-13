@@ -1,0 +1,9 @@
+---
+
+extends: default
+
+rules:
+  document-start: disable
+  line-length:
+    level: warning
+    max: 120
