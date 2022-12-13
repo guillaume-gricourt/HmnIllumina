@@ -7,13 +7,13 @@ on:
 
 jobs:
 
-  Tag:
+  TagRaw:
     runs-on: ubuntu-latest
     outputs:
-      tag: ${{ steps.tag_label.outputs.tag }}
-      changelog: ${{ steps.tag_raw.outputs.changelog }}
+     tag: ${{ steps.tag_label.outputs.tag }}
+     changelog: ${{ steps.tag_raw.outputs.changelog }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -44,7 +44,7 @@ jobs:
   Changelog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -53,8 +53,8 @@ jobs:
           [[ -f CHANGELOG.md ]] || touch CHANGELOG.md
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3
-          bundler-cache: true
+          ruby-version: 3 # Not needed with a .ruby-version file
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: 'Generate CHANGELOG'
         env:
           CHANGELOG_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -72,7 +72,7 @@ jobs:
           retention-days: 1
 
   Version:
-    needs: Tag
+    needs: TagRaw
     runs-on: ubuntu-latest
     outputs:
       version_path: ${{ steps.update_version.outputs.version_path }}
@@ -84,7 +84,7 @@ jobs:
       - name: 'Update version.hpp'
         id: update_version
         env:
-          TAG: ${{ needs.Tag.outputs.tag }}
+          TAG: ${{ needs.TagRaw.outputs.tag }}
         run: |
           VERSION_PATH=$(find . -name version.hpp | head -n 1)
           VERSION_DIR=$(dirname "$VERSION_PATH")
@@ -101,7 +101,7 @@ jobs:
           retention-days: 1
 
   Commit:
-    needs: [Tag, Changelog, Version]
+    needs: [Changelog, Version]
     runs-on: ubuntu-latest
     steps:
       # Get Data
@@ -140,12 +140,29 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
 
+  Tag:
+    needs: [Commit, TagRaw]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: 'Bump version and push tag'
+        id: tag
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          release_branches: stable
+          custom_tag: ${{ needs.TagRaw.outputs.tag }}
+          tag_prefix:
+
   Release:
-    needs: [Tag, Commit]
+    needs: [TagRaw, Commit]
     runs-on: ubuntu-latest
     steps:
       - name: 'Create Release'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ needs.Tag.outputs.tag }}
-          body: ${{ needs.Tag.outputs.changelog }}
+          tag_name: ${{ needs.TagRaw.outputs.tag }}
+          body: ${{ needs.TagRaw.outputs.changelog }}
