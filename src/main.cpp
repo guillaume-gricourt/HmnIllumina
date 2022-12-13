@@ -14,12 +14,12 @@ const string usage() {
     string msg = "";
     msg += "Usage:   IlluminaSav [options]\n\n";
     msg += "Options:\n";
-    msg += "	-h/--help	None	show this help and exit (optional)\n";
+    msg += "    -h/--help    None    show this help and exit (optional)\n";
     msg +=
-        "        -v/--version	None      show the version and exit "
+        "        -v/--version    None      show the version and exit "
         "(optional)\n";
-    msg += "        -i/--input	[FOLDER]	folder Interop (required)\n";
-    msg += "        -o/--output	[FILE]	file output (required)\n";
+    msg += "        -i/--input    [FOLDER]    folder Interop (required)\n";
+    msg += "        -o/--output    [FILE]    file output (required)\n";
     return msg;
 }
 

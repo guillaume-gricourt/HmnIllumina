@@ -1,5 +1,6 @@
-#ifndef ARGS_INCLUDED
-#define ARGS_INCLUDED
+// Copyright 2022 guillaume-gricourt
+#ifndef INCLUDE_ARGS_HPP_
+#define INCLUDE_ARGS_HPP_
 
 #include <string>
 
@@ -23,4 +24,4 @@ private:
     static bool isDir(const std::string &);
 };
 
-#endif  // ARGS_INCLUDED
+#endif  // INCLUDE_ARGS_HPP_
