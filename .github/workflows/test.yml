@@ -5,10 +5,7 @@ on: [push, fork]
 jobs:
 
   MakeTest:
-    runs-on: ${{ matrix.os}}-latest
-    strategy:
-      matrix:
-        os: ["ubuntu", "macos", "windows"]
+    runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v3

@@ -19,8 +19,8 @@ make
 
 ```sh
 ./HmnIllumina \
-    --input	<FOLDER> \
-    --output <FILE>
+  --input <FOLDER> \
+  --output <FILE>
 ```
 
 ## Test
