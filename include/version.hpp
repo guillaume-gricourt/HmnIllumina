@@ -1,7 +1,7 @@
 #ifndef SRC_VERSION_HPP_
 #define SRC_VERSION_HPP_
 
-#define HMNILLUMINA_VERSION "1.4.2"
+#define HMNILLUMINA_VERSION "1.4.3"
 #define HMNILLUMINA_DATE "Dec. 2022"
 
 #endif
