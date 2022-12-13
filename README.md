@@ -25,13 +25,15 @@ make
 
 ## Test
 
+*pytest* is required:
 ```sh
 make test
 ```
 
-## Versioning
+## Built with these main libraries
 
-[SemVer](http://semver.org/) is used for versioning.
+* [interop](https://github.com/illumina/interop) - InterOp library
+* [rapidjson](https://github.com/tencent/rapidjson) - Json library
 
 ## Authors
 
