@@ -1,8 +1,10 @@
-#ifndef RESULT_INCLUDED
-#define RESULT_INCLUDED
+// Copyright 2022 guillaume-gricourt
+#ifndef INCLUDE_RESULT_HPP_
+#define INCLUDE_RESULT_HPP_
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "result.hpp"
 #include "sample.hpp"
@@ -37,4 +39,4 @@ public:
   std::string serializeJson() const;
 };
 
-#endif // RESULT_INCLUDED
+#endif // INCLUDE_RESULT_HPP_

@@ -1,3 +1,4 @@
+// Copyright 2022 guillaume-gricourt
 #include <getopt.h>
 
 #include <iostream>
@@ -8,10 +9,8 @@
 #include "result.hpp"
 #include "version.hpp"
 
-using namespace std;
-
-const string usage() {
-  string msg = "";
+const std::string usage() {
+  std::string msg = "";
   msg += "Usage:   IlluminaSav [options]\n\n";
   msg += "Options:\n";
   msg += "    -h/--help    None    show this help and exit (optional)\n";
@@ -70,14 +69,14 @@ int main(int argc, char **argv) {
 
   // Check if version
   if (showVersion) {
-    cout << HMNILLUMINA_VERSION << endl;
+    std::cout << HMNILLUMINA_VERSION << std::endl;
     return 0;
   }
 
   // Check if ok
-  // TODO Check if args valid
+  // TODO(guillaume-gricourt): Check if args valid
   if (showUsage) { //|| ! args.isValid()
-    cout << usage() << endl;
+    std::cout << usage() << std::endl;
   } else {
     IlluminaSav illsav(args);
     illsav.showParams();

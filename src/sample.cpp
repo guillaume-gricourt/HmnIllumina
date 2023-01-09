@@ -1,10 +1,9 @@
+// Copyright 2022 guillaume-gricourt
 #include "sample.hpp"
 
 #include <numeric>
 #include <string>
 #include <vector>
-
-using namespace std;
 
 Sample::Sample(size_t i, std::string i1, std::string i2, float fm, uint64_t cc,
                std::string si, std::string pn)

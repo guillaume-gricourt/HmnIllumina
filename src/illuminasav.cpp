@@ -1,3 +1,4 @@
+// Copyright 2022 guillaume-gricourt
 #include "illuminasav.hpp"
 
 #include <math.h>
@@ -23,25 +24,13 @@
 #include "result.hpp"
 #include "sample.hpp"
 
-using namespace illumina::interop;
-using namespace illumina::interop::io;
-using namespace illumina::interop::model;
-using namespace illumina::interop::model::metrics;
-using namespace illumina::interop::model::metric_base;
-using namespace illumina::interop::model::run;
-using namespace illumina::interop::model::summary;
-using namespace illumina::interop::logic::summary;
-using namespace illumina::interop::util;
-using namespace illumina::interop::xml;
-using namespace std;
-
 IlluminaSav::IlluminaSav(Args &arg) : args(arg), result(), thread_count(1) {}
 
 int IlluminaSav::showParams() {
   /*******************
   ** Params Summary **
   *******************/
-  info run_info;
+  illumina::interop::model::run::info run_info;
 
   run_info.read(args.getInput());
 
@@ -51,7 +40,7 @@ int IlluminaSav::showParams() {
   result.setParams("instrument_name", run_info.instrument_name());
   result.setParams("paired", (run_info.is_paired_end()) ? "true" : "false");
 
-  stringstream ss;
+  std::stringstream ss;
   ss << run_info.total_cycles();
   result.setParams("cycle_total", ss.str());
   ss.clear();
@@ -59,26 +48,27 @@ int IlluminaSav::showParams() {
   /**********************
    * Parsing Parameters *
    * *******************/
-
   read_file_parameters(args.getInput());
 
   return 0;
 }
 
-void IlluminaSav::read_file_parameters(const string &run_folder)
-    INTEROP_THROW_SPEC((xml::xml_file_not_found_exception,
-                        xml::bad_xml_format_exception,
-                        xml::empty_xml_format_exception,
-                        xml::missing_xml_element_exception,
-                        xml::xml_parse_exception)) {
-  string filename = "";
-  if (run_folder.find(io::paths::run_parameters()) != std::string::npos ||
-      run_folder.find(io::paths::run_parameters(true)) != std::string::npos) {
+void IlluminaSav::read_file_parameters(const std::string &run_folder)
+    INTEROP_THROW_SPEC((illumina::interop::xml::xml_file_not_found_exception,
+                        illumina::interop::xml::bad_xml_format_exception,
+                        illumina::interop::xml::empty_xml_format_exception,
+                        illumina::interop::xml::missing_xml_element_exception,
+                        illumina::interop::xml::xml_parse_exception)) {
+  std::string filename = "";
+  if (run_folder.find(illumina::interop::io::paths::run_parameters()) !=
+          std::string::npos ||
+      run_folder.find(illumina::interop::io::paths::run_parameters(true)) !=
+          std::string::npos) {
     filename = run_folder;
   } else {
-    filename = io::paths::run_parameters(run_folder, true);
-    if (!is_file_readable(filename)) {
-      filename = io::paths::run_parameters(run_folder);
+    filename = illumina::interop::io::paths::run_parameters(run_folder, true);
+    if (illumina::interop::io::is_file_readable(filename)) {
+      filename = illumina::interop::io::paths::run_parameters(run_folder);
     }
   }
   /**************
@@ -90,16 +80,18 @@ void IlluminaSav::read_file_parameters(const string &run_folder)
     rapidxml::file<> xml_file(filename.c_str());
     doc.parse<0>(xml_file.data());
   } catch (const std::runtime_error &ex) {
-    INTEROP_THROW(xml_file_not_found_exception, ex.what());
+    INTEROP_THROW(illumina::interop::xml::xml_file_not_found_exception,
+                  ex.what());
   } catch (const rapidxml::parse_error &ex) {
-    INTEROP_THROW(xml_parse_exception, ex.what());
+    INTEROP_THROW(illumina::interop::xml::xml_parse_exception, ex.what());
   }
 
   // get root node
-  xml_node_ptr p_root = doc.first_node();
+  illumina::interop::xml::xml_node_ptr p_root = doc.first_node();
 
   if (p_root == 0)
-    INTEROP_THROW(empty_xml_format_exception, "Root node not found");
+    INTEROP_THROW(illumina::interop::xml::empty_xml_format_exception,
+                  "Root node not found");
   /*
   if (p_root->name() != string("RunParameters")) {
       INTEROP_THROW(bad_xml_format_exception,
@@ -110,48 +102,50 @@ void IlluminaSav::read_file_parameters(const string &run_folder)
    * Get item *
    * *********/
 
-  xml_node_ptr p_get = nullptr;
+  illumina::interop::xml::xml_node_ptr p_get = nullptr;
 
   // Chemistry
-  string chemistry = "None";
+  std::string chemistry = "None";
   try {
     p_get = p_root->first_node("Chemistry");
-    set_data(p_get, "Chemistry", chemistry);
-  } catch (const missing_xml_element_exception &ex) {
+    illumina::interop::xml::set_data(p_get, "Chemistry", chemistry);
+  } catch (const illumina::interop::xml::missing_xml_element_exception &ex) {
   }
   result.setParams("chemistry", chemistry);
 
   // Reagent Version
-  string reagentkitversion = "None";
+  std::string reagentkitversion = "None";
   try {
     p_get = p_root->first_node("ReagentKitVersion");
-    set_data(p_get, "ReagentKitVersion", reagentkitversion);
-  } catch (const missing_xml_element_exception &ex) {
+    illumina::interop::xml::set_data(p_get, "ReagentKitVersion",
+                                     reagentkitversion);
+  } catch (const illumina::interop::xml::missing_xml_element_exception &ex) {
   }
   result.setParams("reagent_kit_version", reagentkitversion);
 
   // Cycles number
-  string application_name = "None";
-  string cycles_forward = "None";
-  string cycles_reverse = "None";
+  std::string application_name = "None";
+  std::string cycles_forward = "None";
+  std::string cycles_reverse = "None";
   try {
     p_get = p_root->first_node("Setup");
     p_get = p_get->first_node("ApplicationName");
-    set_data(p_get, "ApplicationName", application_name);
-    transform(application_name.begin(), application_name.end(),
-              application_name.begin(), ::tolower);
+    illumina::interop::xml::set_data(p_get, "ApplicationName",
+                                     application_name);
+    std::transform(application_name.begin(), application_name.end(),
+                   application_name.begin(), ::tolower);
 
     if (application_name.rfind("nextseq", 0) == 0) {
       p_get = p_root->first_node("Setup");
       p_get = p_get->first_node("Read1");
-      set_data(p_get, "Read1", cycles_forward);
+      illumina::interop::xml::set_data(p_get, "Read1", cycles_forward);
 
       p_get = p_root->first_node("Setup");
       p_get = p_get->first_node("Read2");
-      set_data(p_get, "Read2", cycles_reverse);
+      illumina::interop::xml::set_data(p_get, "Read2", cycles_reverse);
     } else if (application_name.rfind("miseq", 0) == 0) {
-      string num_cycles = "";
-      string number = "";
+      std::string num_cycles = "";
+      std::string number = "";
       p_get = p_root->first_node("Reads");
       for (auto info_reads = p_get->first_node(); info_reads;
            info_reads = info_reads->next_sibling()) {
@@ -159,19 +153,19 @@ void IlluminaSav::read_file_parameters(const string &run_folder)
              attr = attr->next_attribute()) {
           if (strcmp(attr->name(), "Number") == 0) {
             number = attr->value();
-          } else if (strcmp(attr->name(), "NumCycles") == 0) {
+          } else if (std::strcmp(attr->name(), "NumCycles") == 0) {
             num_cycles = attr->value();
-          } else if (strcmp(attr->name(), "IsIndexedRead") == 0) {
+          } else if (std::strcmp(attr->name(), "IsIndexedRead") == 0) {
             if (strcmp(attr->value(), "N") == 0 && number == "1") {
               cycles_forward = num_cycles;
-            } else if (strcmp(attr->value(), "N") == 0) {
+            } else if (std::strcmp(attr->value(), "N") == 0) {
               cycles_reverse = num_cycles;
             }
           }
         }
       }
     }
-  } catch (const missing_xml_element_exception &ex) {
+  } catch (const illumina::interop::xml::missing_xml_element_exception &ex) {
   }
 
   result.setParams("cycles_reverse", cycles_reverse);
@@ -184,22 +178,22 @@ int IlluminaSav::showMetrics() {
   /********************
   ** Metrics Summary **
   ********************/
-  run_metrics run;
-  run_summary summary;
+  illumina::interop::model::metrics::run_metrics run;
+  illumina::interop::model::summary::run_summary summary;
 
-  logic::utils::list_summary_metrics_to_load(valid_to_load);
+  illumina::interop::logic::utils::list_summary_metrics_to_load(valid_to_load);
 
   run.read(args.getInput(), valid_to_load, thread_count);
 
   try {
-    summarize_run_metrics(run, summary);
+    illumina::interop::logic::summary::summarize_run_metrics(run, summary);
   } catch (const std::exception &ex) {
     std::cerr << ex.what() << std::endl;
     return 1;
   }
 
   /*** Lane ***/
-  // TODO Mean Qual
+  // TODO(guillaume-gricourt): Mean Qual
   for (size_t read = 0; read < summary.size(); ++read) {
     if (summary[read].read().is_index()) {
       continue;
@@ -209,8 +203,9 @@ int IlluminaSav::showMetrics() {
         continue;
       }
 
-      const lane_summary &lane_sum = summary[read][lane];
-      map<string, float> lane_values;
+      const illumina::interop::model::summary::lane_summary &lane_sum =
+          summary[read][lane];
+      std::map<std::string, float> lane_values;
       lane_values["cluster_raw"] =
           lane_sum.reads(); //.reads() == cluster_count().mean()
       lane_values["cluster_pf"] = lane_sum.reads_pf();
@@ -223,23 +218,24 @@ int IlluminaSav::showMetrics() {
     }
 
     /**** Reads ****/
-    map<string, float> read_values;
+    std::map<std::string, float> read_values;
     read_values["q_30"] = summary[read].summary().percent_gt_q30();
     result.setRead(static_cast<int>(read), read_values);
   }
 
   /*** Flowcell ***/
-  const metric_summary &metric_sum = summary.total_summary();
+  const illumina::interop::model::summary::metric_summary &metric_sum =
+      summary.total_summary();
   result.setFlowcell("yield", metric_sum.yield_g());
   result.setFlowcell("q_30", metric_sum.percent_gt_q30());
   result.setFlowcell("error_rate", metric_sum.error_rate());
 
   // Calcul
-  vector<float> vec_cluster_raw;
-  vector<float> vec_cluster_pf;
-  vector<float> vec_cluster_density;
+  std::vector<float> vec_cluster_raw;
+  std::vector<float> vec_cluster_pf;
+  std::vector<float> vec_cluster_density;
 
-  for (map<int, map<string, float>>::const_iterator it =
+  for (std::map<int, std::map<std::string, float>>::const_iterator it =
            result.getLane().begin();
        it != result.getLane().end(); ++it) {
     vec_cluster_raw.push_back(it->second.at("cluster_raw"));
@@ -247,10 +243,11 @@ int IlluminaSav::showMetrics() {
     vec_cluster_density.push_back(it->second.at("cluster_density"));
   }
 
-  result.setFlowcell("cluster_raw", accumulate(vec_cluster_raw.begin(),
-                                               vec_cluster_raw.end(), 0.0f));
-  result.setFlowcell("cluster_pf", accumulate(vec_cluster_pf.begin(),
-                                              vec_cluster_pf.end(), 0.0f));
+  result.setFlowcell(
+      "cluster_raw",
+      std::accumulate(vec_cluster_raw.begin(), vec_cluster_raw.end(), 0.0f));
+  result.setFlowcell("cluster_pf", std::accumulate(vec_cluster_pf.begin(),
+                                                   vec_cluster_pf.end(), 0.0f));
   result.setFlowcell("cluster_density",
                      IlluminaSav::getMean(vec_cluster_density));
 
@@ -263,25 +260,28 @@ int IlluminaSav::showSamples() {
   /******************
   ** Index Summary **
   ******************/
-  run_metrics run;
-  index_flowcell_summary summary_index;
-  logic::utils::list_index_metrics_to_load(valid_to_load);
+  illumina::interop::model::metrics::run_metrics run;
+  illumina::interop::model::summary::index_flowcell_summary summary_index;
+  illumina::interop::logic::utils::list_index_metrics_to_load(valid_to_load);
 
   run.read(args.getInput(), valid_to_load, thread_count);
 
   try {
-    summarize_index_metrics(run, summary_index);
+    illumina::interop::logic::summary::summarize_index_metrics(run,
+                                                               summary_index);
   } catch (const std::exception &ex) {
     std::cerr << ex.what() << std::endl;
     return 1;
   }
 
-  map<size_t, Sample> samples;
+  std::map<size_t, Sample> samples;
 
   for (size_t lane = 0; lane < summary_index.size(); ++lane) {
-    const index_lane_summary &index_lane_sum = summary_index[lane];
+    const illumina::interop::model::summary::index_lane_summary
+        &index_lane_sum = summary_index[lane];
     for (size_t index = 0; index < index_lane_sum.size(); ++index) {
-      const index_count_summary &index_count_sum = index_lane_sum[index];
+      const illumina::interop::model::summary::index_count_summary
+          &index_count_sum = index_lane_sum[index];
 
       size_t sample_id = index_count_sum.id();
 
@@ -300,8 +300,8 @@ int IlluminaSav::showSamples() {
     }
   }
 
-  vector<Sample> vsamples;
-  for (map<size_t, Sample>::const_iterator it = samples.begin();
+  std::vector<Sample> vsamples;
+  for (std::map<size_t, Sample>::const_iterator it = samples.begin();
        it != samples.end(); ++it) {
     vsamples.push_back(it->second);
   }
@@ -309,18 +309,17 @@ int IlluminaSav::showSamples() {
   return 0;
 }
 
-float IlluminaSav::getMean(vector<float> &vec) {
-  return accumulate(vec.begin(), vec.end(), 0.0f) / vec.size();
+float IlluminaSav::getMean(std::vector<float> &vec) {
+  return std::accumulate(vec.begin(), vec.end(), 0.0f) / vec.size();
 }
 
 int IlluminaSav::writeOutput() const {
-  string dico = result.serializeJson();
+  std::string dico = result.serializeJson();
 
-  ofstream myfile;
+  std::ofstream myfile;
   myfile.open(args.getOutput().c_str());
   myfile << dico;
   myfile.close();
 
   return 0;
-  // cout << dico << endl;
 }

@@ -1,3 +1,4 @@
+// Copyright 2022 guillaume-gricourt
 #include "result.hpp"
 
 #include <iostream>
@@ -11,77 +12,84 @@
 #include "rapidjson/stringbuffer.h"
 #include "sample.hpp"
 
-using namespace rapidjson;
-using namespace std;
-
 /** Getters **/
-map<string, string> const &Result::getParams() const { return params; }
-map<string, float> const &Result::getFlowcell() const { return flowcell; }
-map<int, map<string, float>> const &Result::getRead() const { return read; }
-map<int, map<string, float>> const &Result::getLane() const { return lane; }
-vector<Sample> Result::getSamples() const { return samples; }
+std::map<std::string, std::string> const &Result::getParams() const {
+  return params;
+}
+std::map<std::string, float> const &Result::getFlowcell() const {
+  return flowcell;
+}
+std::map<int, std::map<std::string, float>> const &Result::getRead() const {
+  return read;
+}
+std::map<int, std::map<std::string, float>> const &Result::getLane() const {
+  return lane;
+}
+std::vector<Sample> Result::getSamples() const { return samples; }
 
 /** Setters **/
-void Result::setParams(const string &key, const string &value) {
+void Result::setParams(const std::string &key, const std::string &value) {
   params[key] = value;
 }
-void Result::setFlowcell(const string &key, const float &value) {
+void Result::setFlowcell(const std::string &key, const float &value) {
   flowcell[key] = value;
 }
-void Result::setRead(const int &key, const map<string, float> &value) {
+void Result::setRead(const int &key,
+                     const std::map<std::string, float> &value) {
   read[key] = value;
 }
-void Result::setLane(const int &key, const map<string, float> &value) {
+void Result::setLane(const int &key,
+                     const std::map<std::string, float> &value) {
   lane[key] = value;
 }
 void Result::setSamples(const std::vector<Sample> &s) { samples = s; }
 
-string Result::serializeJson() const {
+std::string Result::serializeJson() const {
   // Init
-  Document document;
+  rapidjson::Document document;
 
   document.SetObject();
-  Document::AllocatorType &allocator = document.GetAllocator();
+  rapidjson::Document::AllocatorType &allocator = document.GetAllocator();
 
   // Params
-  Value vparam(rapidjson::kObjectType);
-  for (map<string, string>::const_iterator it = params.begin();
+  rapidjson::Value vparam(rapidjson::kObjectType);
+  for (std::map<std::string, std::string>::const_iterator it = params.begin();
        it != params.end(); ++it) {
-    Value key(it->first.c_str(), allocator);
-    Value value(it->second.c_str(), allocator);
+    rapidjson::Value key(it->first.c_str(), allocator);
+    rapidjson::Value value(it->second.c_str(), allocator);
     vparam.AddMember(key, value, allocator);
   }
   document.AddMember("parameters", vparam, allocator);
 
   // Flowcell
-
-  Value vflowcell(rapidjson::kObjectType);
-  for (map<string, float>::const_iterator it = flowcell.begin();
+  rapidjson::Value vflowcell(rapidjson::kObjectType);
+  for (std::map<std::string, float>::const_iterator it = flowcell.begin();
        it != flowcell.end(); ++it) {
-    Value key(it->first.c_str(), allocator);
+    rapidjson::Value key(it->first.c_str(), allocator);
     float fvalue = it->second;
-    Value value(to_string(fvalue).c_str(), allocator);
+    rapidjson::Value value(std::to_string(fvalue).c_str(), allocator);
     vflowcell.AddMember(key, value, allocator);
   }
   document.AddMember("flowcell", vflowcell, allocator);
 
   // Read
-  Value vread(rapidjson::kObjectType);
-  for (map<int, map<string, float>>::const_iterator it = read.begin();
+  rapidjson::Value vread(rapidjson::kObjectType);
+  for (std::map<int, std::map<std::string, float>>::const_iterator it =
+           read.begin();
        it != read.end(); ++it) {
-    Value vread_values(rapidjson::kObjectType);
-    for (map<string, float>::const_iterator it2 = it->second.begin();
+    rapidjson::Value vread_values(rapidjson::kObjectType);
+    for (std::map<std::string, float>::const_iterator it2 = it->second.begin();
          it2 != it->second.end(); ++it2) {
-      Value key(it2->first.c_str(), allocator);
+      rapidjson::Value key(it2->first.c_str(), allocator);
       float fvalue = it2->second;
-      Value value(to_string(fvalue).c_str(), allocator);
+      rapidjson::Value value(std::to_string(fvalue).c_str(), allocator);
       vread_values.AddMember(key, value, allocator);
     }
     int read_number = it->first;
 
-    Value vread_number;
+    rapidjson::Value vread_number;
 
-    const char *cstr = to_string(read_number).c_str();
+    const char *cstr = std::to_string(read_number).c_str();
     vread_number.SetString(cstr, allocator);
 
     vread.AddMember(vread_number, vread_values, allocator);
@@ -89,25 +97,26 @@ string Result::serializeJson() const {
   document.AddMember("read", vread, allocator);
 
   // Lane
-  Value vlane(rapidjson::kObjectType);
-  for (map<int, map<string, float>>::const_iterator it = lane.begin();
+  rapidjson::Value vlane(rapidjson::kObjectType);
+  for (std::map<int, std::map<std::string, float>>::const_iterator it =
+           lane.begin();
        it != lane.end(); ++it) {
-    Value vlane_values(rapidjson::kObjectType);
+    rapidjson::Value vlane_values(rapidjson::kObjectType);
 
-    for (map<string, float>::const_iterator it2 = it->second.begin();
+    for (std::map<std::string, float>::const_iterator it2 = it->second.begin();
          it2 != it->second.end(); ++it2) {
-      Value key(it2->first.c_str(), allocator);
+      rapidjson::Value key(it2->first.c_str(), allocator);
 
       float fvalue = it2->second;
-      Value value(to_string(fvalue).c_str(), allocator);
+      rapidjson::Value value(std::to_string(fvalue).c_str(), allocator);
       vlane_values.AddMember(key, value, allocator);
     }
 
     int lane_number = it->first + 1;
 
-    Value vlane_number;
+    rapidjson::Value vlane_number;
 
-    const char *cstr = to_string(lane_number).c_str();
+    const char *cstr = std::to_string(lane_number).c_str();
     vlane_number.SetString(cstr, allocator);
 
     vlane.AddMember(vlane_number, vlane_values, allocator);
@@ -115,36 +124,37 @@ string Result::serializeJson() const {
   document.AddMember("lane", vlane, allocator);
 
   // Samples
-  // Samples
-  Value vsamples(rapidjson::kObjectType);
+  rapidjson::Value vsamples(rapidjson::kObjectType);
   for (auto &it : samples) {
-    Value vsample(rapidjson::kObjectType);
+    rapidjson::Value vsample(rapidjson::kObjectType);
 
-    Value k_id("sample_id", allocator);
-    Value v_id(to_string(it.getId()).c_str(), allocator);
+    rapidjson::Value k_id("sample_id", allocator);
+    rapidjson::Value v_id(std::to_string(it.getId()).c_str(), allocator);
     vsample.AddMember(k_id, v_id, allocator);
 
-    Value k_ix1("index1", allocator);
-    Value v_ix1(it.getIndex1().c_str(), allocator);
+    rapidjson::Value k_ix1("index1", allocator);
+    rapidjson::Value v_ix1(it.getIndex1().c_str(), allocator);
     vsample.AddMember(k_ix1, v_ix1, allocator);
 
-    Value k_ix2("index2", allocator);
-    Value v_ix2(it.getIndex2().c_str(), allocator);
+    rapidjson::Value k_ix2("index2", allocator);
+    rapidjson::Value v_ix2(it.getIndex2().c_str(), allocator);
     vsample.AddMember(k_ix2, v_ix2, allocator);
 
-    Value k_fm("fraction_mapped", allocator);
-    Value v_fm(to_string(it.getFractionMapped()).c_str(), allocator);
+    rapidjson::Value k_fm("fraction_mapped", allocator);
+    rapidjson::Value v_fm(std::to_string(it.getFractionMapped()).c_str(),
+                          allocator);
     vsample.AddMember(k_fm, v_fm, allocator);
 
-    Value k_cc("cluster_count", allocator);
-    Value v_cc(to_string(it.getClusterCount()).c_str(), allocator);
+    rapidjson::Value k_cc("cluster_count", allocator);
+    rapidjson::Value v_cc(std::to_string(it.getClusterCount()).c_str(),
+                          allocator);
     vsample.AddMember(k_cc, v_cc, allocator);
 
-    Value k_pn("project_name", allocator);
-    Value v_pn(it.getProjectName().c_str(), allocator);
+    rapidjson::Value k_pn("project_name", allocator);
+    rapidjson::Value v_pn(it.getProjectName().c_str(), allocator);
     vsample.AddMember(k_pn, v_pn, allocator);
 
-    Value vsample_id;
+    rapidjson::Value vsample_id;
     vsample_id.SetString(it.getSampleId().c_str(), allocator);
 
     vsamples.AddMember(vsample_id, vsample, allocator);
@@ -152,10 +162,10 @@ string Result::serializeJson() const {
   document.AddMember("samples", vsamples, allocator);
 
   // Write
-  StringBuffer buffer;
-  PrettyWriter<StringBuffer> writer(buffer);
+  rapidjson::StringBuffer buffer;
+  rapidjson::PrettyWriter<rapidjson::StringBuffer> writer(buffer);
   document.Accept(writer);
 
-  string res = buffer.GetString();
+  std::string res = buffer.GetString();
   return res;
 }

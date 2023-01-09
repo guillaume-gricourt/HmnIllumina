@@ -1,5 +1,6 @@
-#ifndef SAMPLE_INCLUDED
-#define SAMPLE_INCLUDED
+// Copyright 2022 guillaume-gricourt
+#ifndef INCLUDE_SAMPLE_HPP_
+#define INCLUDE_SAMPLE_HPP_
 
 #include <string>
 #include <vector>
@@ -41,4 +42,4 @@ public:
   void updateClusterCount(uint64_t);
 };
 
-#endif // ARGS_INCLUDED
+#endif // INCLUDE_SAMPLE_HPP_

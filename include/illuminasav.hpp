@@ -1,6 +1,8 @@
-#ifndef ILLUMINASAV_INCLUDED
-#define ILLUMINASAV_INCLUDED
+// Copyright 2022 guillaume-gricourt
+#ifndef INCLUDE_ILLUMINASAV_HPP_
+#define INCLUDE_ILLUMINASAV_HPP_
 
+#include <string>
 #include <vector>
 
 #include "args.hpp"
@@ -14,7 +16,7 @@ private:
   size_t thread_count;
 
 public:
-  IlluminaSav(Args &);
+  explicit IlluminaSav(Args &);
 
   void read_file_parameters(const std::string &) INTEROP_THROW_SPEC(
       (xml::xml_file_not_found_exception, xml::bad_xml_format_exception,
@@ -28,4 +30,4 @@ public:
   int writeOutput() const;
 };
 
-#endif // ILLUMINASAV_INCLUDED
+#endif // INCLUDE_ILLUMINASAV_HPP_
