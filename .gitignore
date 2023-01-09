@@ -1,20 +1,12 @@
 # Compiled Object files
-*.slo
-*.lo
 *.o
 *.obj
-
-# Executables
-*.exe
-*.out
-*.app
 
 # Misc
 lib/interop-*/bin
 *.swp
-*.zip
-*.DS_Store
 obj
 HmnIllumina
 __pycache__
 super-linter.log
+tests/

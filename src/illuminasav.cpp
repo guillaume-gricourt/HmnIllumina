@@ -67,7 +67,7 @@ void IlluminaSav::read_file_parameters(const std::string &run_folder)
     filename = run_folder;
   } else {
     filename = illumina::interop::io::paths::run_parameters(run_folder, true);
-    if (illumina::interop::io::is_file_readable(filename)) {
+    if (!illumina::interop::io::is_file_readable(filename)) {
       filename = illumina::interop::io::paths::run_parameters(run_folder);
     }
   }
