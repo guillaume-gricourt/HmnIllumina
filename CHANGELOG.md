@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.4.3](https://github.com/guillaume-gricourt/HmnIllumina/tree/1.4.3) (2022-12-13)
+
+[Full Changelog](https://github.com/guillaume-gricourt/HmnIllumina/compare/1.4.2...1.4.3)
+
 ## [1.4.2](https://github.com/guillaume-gricourt/HmnIllumina/tree/1.4.2) (2022-12-13)
 
 [Full Changelog](https://github.com/guillaume-gricourt/HmnIllumina/compare/1.4.0...1.4.2)
