@@ -21,3 +21,11 @@ class TestReproducibility(main_tests.MainTests):
             self.assertTrue(
                 main_tests.MainTests.compare_json(one=fd.name, two=self.res_one)
             )
+
+    def test_failed(self):
+        with tempfile.NamedTemporaryFile() as fdone, tempfile.NamedTemporaryFile() as fdtwo:
+            args = [self.exec_path]
+            args += ["--input", fdone.name]
+            args += ["--output", fdtwo.name]
+            ret = main_tests.MainTests.cmd(args=args)
+            self.assertEqual(ret.returncode, 1)

@@ -4,24 +4,26 @@
 
 #include <string>
 
+#define PATHMAX 256
+
 class Args {
 private:
-    std::string finput;
-    std::string foutput;
+  std::string finput;
+  std::string foutput;
 
 public:
-    // Getters Setters
-    void setInput(const std::string &);
-    void setOutput(const std::string &);
+  // Getters Setters
+  void setInput(const std::string &);
+  void setOutput(const std::string &);
 
-    std::string getInput() const;
-    std::string getOutput() const;
+  std::string getInput() const;
+  std::string getOutput() const;
 
-    // Others
-    bool isValid() const;
+  // Others
+  bool isValid() const;
 
 private:
-    static bool isDir(const std::string &);
+  static bool isDir(const std::string &);
 };
 
-#endif  // INCLUDE_ARGS_HPP_
+#endif // INCLUDE_ARGS_HPP_

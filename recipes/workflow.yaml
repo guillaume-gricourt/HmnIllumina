@@ -1,0 +1,15 @@
+name: test
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - illumina-interop
+  - gxx
+  - gxx_impl_linux-64
+  - gxx_linux-64
+  - make
+  - pytest
+  - python
+  - rapidjson
+  - zlib

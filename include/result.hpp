@@ -1,40 +1,42 @@
-#ifndef RESULT_INCLUDED
-#define RESULT_INCLUDED
+// Copyright 2022 guillaume-gricourt
+#ifndef INCLUDE_RESULT_HPP_
+#define INCLUDE_RESULT_HPP_
 
 #include <map>
 #include <string>
+#include <vector>
 
 #include "result.hpp"
 #include "sample.hpp"
 
 class Result {
 private:
-    // Params
-    std::map<std::string, std::string> params;
-    // flowcell
-    std::map<std::string, float> flowcell;
-    // Read
-    std::map<int, std::map<std::string, float>> read;
-    // lane
-    std::map<int, std::map<std::string, float>> lane;
-    // sample
-    std::vector<Sample> samples;
+  // Params
+  std::map<std::string, std::string> params;
+  // flowcell
+  std::map<std::string, float> flowcell;
+  // Read
+  std::map<int, std::map<std::string, float>> read;
+  // lane
+  std::map<int, std::map<std::string, float>> lane;
+  // sample
+  std::vector<Sample> samples;
 
 public:
-    // Accessors
-    std::map<std::string, std::string> const &getParams() const;
-    std::map<std::string, float> const &getFlowcell() const;
-    std::map<int, std::map<std::string, float>> const &getRead() const;
-    std::map<int, std::map<std::string, float>> const &getLane() const;
-    std::vector<Sample> getSamples() const;
+  // Accessors
+  std::map<std::string, std::string> const &getParams() const;
+  std::map<std::string, float> const &getFlowcell() const;
+  std::map<int, std::map<std::string, float>> const &getRead() const;
+  std::map<int, std::map<std::string, float>> const &getLane() const;
+  std::vector<Sample> getSamples() const;
 
-    void setParams(const std::string &, const std::string &);
-    void setFlowcell(const std::string &, const float &);
-    void setRead(const int &, const std::map<std::string, float> &);
-    void setLane(const int &, const std::map<std::string, float> &);
-    void setSamples(const std::vector<Sample> &);
+  void setParams(const std::string &, const std::string &);
+  void setFlowcell(const std::string &, const float &);
+  void setRead(const int &, const std::map<std::string, float> &);
+  void setLane(const int &, const std::map<std::string, float> &);
+  void setSamples(const std::vector<Sample> &);
 
-    std::string serializeJson() const;
+  std::string serializeJson() const;
 };
 
-#endif  // RESULT_INCLUDED
+#endif // INCLUDE_RESULT_HPP_
