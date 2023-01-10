@@ -22,9 +22,10 @@ HmnIllumina \
 
 The `--input` argument refers to an output directory produced by an Illumina sequencer named like `20200101_M0000_*` for a Miseq run.
 The directory must contains:
-* a `RunInfo.xml` file
-* a `RunParameters.xml` file
-* an `InterOp` directory with at least these files: `ErrorMetricsOut.bin`,  `IndexMetricsOut.bin`,  `QMetricsOut.bin`,  `TileMetricsOut.bin`  
+* a `RunInfo.xml` file.
+* a `RunParameters.xml` file.
+* an `InterOp` directory with at least these files: `ErrorMetricsOut.bin`,  `IndexMetricsOut.bin`,  `QMetricsOut.bin`,  `TileMetricsOut.bin`.
+
 The `--output` argument refers to a JSON file.  
 Undefined values are denoted by `""` or `"NA"`.
 
