@@ -12,13 +12,20 @@ Parse `InterOp` folder from Illumina run to keep useful informations.
 conda install -n bioconda hmnillumina
 ```
 
-## Use
+## Usage
 
 ```sh
 HmnIllumina \
-  --input <FOLDER> \
-  --output <FILE>
+  -i/--input <FOLDER> \
+  -o/--output <FILE>
 ```
+
+The `--input` argument refers to an output directory produced by an Illumina sequencer named like `20200101_M0000_*` for a Miseq run.
+The directory must contains:
+* a `RunInfo.xml` file
+* a `RunParameters.xml` file
+* an `InterOp` directory with at least these files: `ErrorMetricsOut.bin`,  `IndexMetricsOut.bin`,  `QMetricsOut.bin`,  `TileMetricsOut.bin`
+The `--output` argument refers to a JSON file. Undefined values are denoted by `""` or `"NA"`.
 
 ## Test
 
@@ -31,7 +38,3 @@ make test
 
 * [interop](https://github.com/illumina/interop) - InterOp library
 * [rapidjson](https://github.com/tencent/rapidjson) - Json library
-
-## Authors
-
-* **Guillaume Gricourt**
