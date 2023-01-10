@@ -67,22 +67,26 @@ int main(int argc, char **argv) {
     }
   }
 
-  // Check if version
   if (showVersion) {
     std::cout << HMNILLUMINA_VERSION << std::endl;
     return 0;
   }
-
-  // Check if ok
-  // TODO(guillaume-gricourt): Check if args valid
-  if (showUsage) { //|| ! args.isValid()
+  if (showUsage) {
     std::cout << usage() << std::endl;
-  } else {
-    IlluminaSav illsav(args);
-    illsav.showParams();
-    illsav.showMetrics();
-    illsav.showSamples();
-    illsav.writeOutput();
+    return 0;
   }
+  if (!args.isValid()) {
+    std::cerr << "Arguments are not valid";
+    std::cerr << "-i is not a dir or -o has not an existing dirname";
+    std::cerr << std::endl;
+    std::cout << usage() << std::endl;
+    return 1;
+  }
+  IlluminaSav illsav(args);
+  illsav.showParams();
+  illsav.showMetrics();
+  illsav.showSamples();
+  illsav.writeOutput();
+
   return 0;
 }

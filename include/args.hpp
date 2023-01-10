@@ -4,6 +4,8 @@
 
 #include <string>
 
+#define PATHMAX 256
+
 class Args {
 private:
   std::string finput;
