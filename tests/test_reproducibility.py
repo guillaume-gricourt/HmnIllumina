@@ -1,4 +1,3 @@
-import shutil
 import tempfile
 
 from tests import main_tests
