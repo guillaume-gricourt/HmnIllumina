@@ -11,9 +11,10 @@ class MainTests(unittest.TestCase):
     exec_path = os.path.join(os.path.dirname(__file__), "HmnIllumina")
     # Gold input
     illumina_path = os.path.join(dataset_path, "illumina")
-    illumina_one = os.path.join(
-        illumina_path, "200101_M999_0999_000000000-Z9ZZ9", "InterOp"
-    )
+    illumina_one = os.path.join(illumina_path, "200101_M999_0999_000000000-Z9ZZ9")
+    illumina_one_interop = os.path.join(illumina_one, "InterOp")
+    illumina_one_info = os.path.join(illumina_one, "RunInfo.xml")
+    illumina_one_parameter = os.path.join(illumina_one, "RunParameters.xml")
     # Gold output
     res_path = os.path.join(dataset_path, "result")
     res_one = os.path.join(res_path, "200101_M999.json")
