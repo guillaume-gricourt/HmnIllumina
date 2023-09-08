@@ -2,6 +2,7 @@
 #ifndef INCLUDE_SAMPLE_HPP_
 #define INCLUDE_SAMPLE_HPP_
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
