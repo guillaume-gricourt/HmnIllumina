@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.5.0](https://github.com/guillaume-gricourt/HmnIllumina/tree/1.5.0) (2023-01-10)
+
+[Full Changelog](https://github.com/guillaume-gricourt/HmnIllumina/compare/1.4.3...1.5.0)
+
+**Implemented enhancements:**
+
+- Check arguments [\#2](https://github.com/guillaume-gricourt/HmnIllumina/pull/2) ([guillaume-gricourt](https://github.com/guillaume-gricourt))
+
+**Merged pull requests:**
+
+- `super-linter` [\#1](https://github.com/guillaume-gricourt/HmnIllumina/pull/1) ([guillaume-gricourt](https://github.com/guillaume-gricourt))
+
 ## [1.4.3](https://github.com/guillaume-gricourt/HmnIllumina/tree/1.4.3) (2022-12-13)
 
 [Full Changelog](https://github.com/guillaume-gricourt/HmnIllumina/compare/1.4.2...1.4.3)
