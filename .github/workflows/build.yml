@@ -13,13 +13,13 @@ jobs:
      tag: ${{ steps.tag_label.outputs.tag }}
      changelog: ${{ steps.tag_raw.outputs.changelog }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
       - name: 'Bump version and push tag - dry run'
         id: tag_raw
-        uses: mathieudutour/github-tag-action@v6.0
+        uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: stable
@@ -36,7 +36,7 @@ jobs:
   Changelog:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
@@ -57,7 +57,7 @@ jobs:
           echo "$USER $PROJECT"
           github_changelog_generator --user "$USER" --project "$PROJECT" --no-unreleased
       - name: 'Upload Artifact Changelog'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: changelog-artifact
           path: CHANGELOG.md
@@ -70,7 +70,7 @@ jobs:
       version_path: ${{ steps.update_version.outputs.version_path }}
       version_dir: ${{ steps.update_version.outputs.version_dir }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: stable
       - name: 'Update version.hpp'
@@ -81,12 +81,12 @@ jobs:
           VERSION_PATH=$(find . -name version.hpp | head -n 1)
           VERSION_DIR=$(dirname "$VERSION_PATH")
           cur=$(date "+%b. %Y")
-          sed -i "4s/\".*\"/\"$TAG\"/" "$VERSION_PATH"
-          sed -i "5s/\".*\"/\"$cur\"/" "$VERSION_PATH"
+          sed -i "5s/\".*\"/\"$TAG\"/" "$VERSION_PATH"
+          sed -i "6s/\".*\"/\"$cur\"/" "$VERSION_PATH"
           echo "version_path=$VERSION_PATH" >> "$GITHUB_OUTPUT"
           echo "version_dir=$VERSION_DIR" >> "$GITHUB_OUTPUT"
       - name: 'Upload Artifact Version'
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: version-artifact
           path: ${{ steps.update_version.outputs.version_path }}
@@ -98,17 +98,17 @@ jobs:
     steps:
       # Get Data
       - name: 'Checkout'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
       - name: 'Download Artifact Version'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: version-artifact
           path: ${{ needs.Version.outputs.version_dir }}
       - name: 'Download Artifact Changelog'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: changelog-artifact
       # Commit
@@ -136,13 +136,13 @@ jobs:
     needs: [Commit, TagRaw]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 0
       - name: 'Bump version and push tag'
         id: tag
-        uses: mathieudutour/github-tag-action@v6.0
+        uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: stable

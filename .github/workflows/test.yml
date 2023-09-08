@@ -11,7 +11,7 @@ jobs:
         shell: bash -l {0}
     steps:
       - name: 'Checkout'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Deploying miniconda'
         uses: conda-incubator/setup-miniconda@v2
         with:
@@ -29,12 +29,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.ref }}
           fetch-depth: 0
       - name: Lint Code Base
-        uses: github/super-linter@v4
+        uses: github/super-linter@v5
         env:
           FILTER_REGEX_EXCLUDE: "./lib/.*"
           VALIDATE_GITHUB_ACTIONS: false
